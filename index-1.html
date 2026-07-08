@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keystone Capital — Business Funding</title>
+  <meta name="description" content="Same-day working capital for small businesses. Apply in 5 minutes." />
+  <script>
+    // On-screen error catcher so failures are visible, not blank.
+    (function(){
+      function show(msg){
+        var d = document.getElementById('__err');
+        if(!d){ d = document.createElement('pre'); d.id='__err';
+          d.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:99999;margin:0;padding:14px;background:#3a0d0d;color:#ffd7d7;font:12px/1.5 monospace;white-space:pre-wrap;max-height:55%;overflow:auto;border-top:2px solid #ff6b6b';
+          (document.body||document.documentElement).appendChild(d); }
+        d.textContent += msg + '\n';
+      }
+      window.addEventListener('error', function(e){ show('Error: ' + (e.message||e.error) + (e.filename? '  ('+e.filename+':'+e.lineno+')':'')); });
+      window.addEventListener('unhandledrejection', function(e){ show('Promise error: ' + (e.reason && e.reason.message || e.reason)); });
+    })();
+  </script>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+      document.getElementById('root').innerHTML =
+        '<div style="font:16px system-ui;padding:40px;max-width:520px;margin:40px auto;color:#0C1628">' +
+        '<b>Couldn\'t load the app libraries.</b><br><br>This page needs an internet connection to load React from a CDN. ' +
+        'Check your connection and reload.</div>';
+    }
+  </script>
+  <script>
+"use strict";
+const { useState, useEffect, useRef } = React;
+function _svg(children) {
+    return function Icon({ size = 24, className, style }) {
+        return (React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: className, style: style }, children));
+    };
+}
+const ArrowRight = _svg(React.createElement("g", null,
+    React.createElement("path", { d: "M5 12h14" }),
+    React.createElement("path", { d: "M12 5l7 7-7 7" })));
+const ArrowLeft = _svg(React.createElement("g", null,
+    React.createElement("path", { d: "M19 12H5" }),
+    React.createElement("path", { d: "M12 19l-7-7 7-7" })));
+const Check = _svg(React.createElement("path", { d: "M20 6L9 17l-5-5" }));
+const ShieldCheck = _svg(React.createElement("g", null,
+    React.createElement("path", { d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" }),
+    React.createElement("path", { d: "M9 12l2 2 4-4" })));
+const Zap = _svg(React.createElement("path", { d: "M13 2L3 14h8l-1 8 10-12h-8l1-8z" }));
+const TrendingUp = _svg(React.createElement("g", null,
+    React.createElement("path", { d: "M23 6l-9.5 9.5-5-5L1 18" }),
+    React.createElement("path", { d: "M17 6h6v6" })));
+const Building2 = _svg(React.createElement("g", null,
+    React.createElement("path", { d: "M3 22h18" }),
+    React.createElement("path", { d: "M6 22V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v18" }),
+    React.createElement("path", { d: "M14 9h3a1 1 0 0 1 1 1v12" }),
+    React.createElement("path", { d: "M9 7h1M9 11h1M9 15h1" })));
+const Landmark = _svg(React.createElement("g", null,
+    React.createElement("path", { d: "M12 3L2 8h20z" }),
+    React.createElement("path", { d: "M4 10v9M9 10v9M15 10v9M20 10v9" }),
+    React.createElement("path", { d: "M2 21h20" })));
+const Wallet = _svg(React.createElement("g", null,
+    React.createElement("path", { d: "M20 12V7H6a2 2 0 0 1 0-4h12v4" }),
+    React.createElement("path", { d: "M4 5v14a2 2 0 0 0 2 2h14v-5" }),
+    React.createElement("path", { d: "M18 12a2 2 0 0 0 0 4h4v-4z" })));
+const Clock = _svg(React.createElement("g", null,
+    React.createElement("circle", { cx: "12", cy: "12", r: "9" }),
+    React.createElement("path", { d: "M12 7v5l3 2" })));
+const Lock = _svg(React.createElement("g", null,
+    React.createElement("rect", { x: "4", y: "10", width: "16", height: "11", rx: "2" }),
+    React.createElement("path", { d: "M8 10V7a4 4 0 0 1 8 0v3" })));
+const Upload = _svg(React.createElement("g", null,
+    React.createElement("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
+    React.createElement("path", { d: "M12 16V3" }),
+    React.createElement("path", { d: "M7 8l5-5 5 5" })));
+const FileText = _svg(React.createElement("g", null,
+    React.createElement("path", { d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" }),
+    React.createElement("path", { d: "M14 2v6h6" }),
+    React.createElement("path", { d: "M8 13h8M8 17h8M8 9h2" })));
+const ChevronDown = _svg(React.createElement("path", { d: "M6 9l6 6 6-6" }));
+const Menu = _svg(React.createElement("path", { d: "M3 6h18M3 12h18M3 18h18" }));
+const X = _svg(React.createElement("path", { d: "M18 6L6 18M6 6l12 12" }));
+const CircleDollarSign = _svg(React.createElement("g", null,
+    React.createElement("circle", { cx: "12", cy: "12", r: "9" }),
+    React.createElement("path", { d: "M14.5 9a2.5 2.5 0 0 0-2.5-1.8h-.5a2.2 2.2 0 0 0 0 4.4h1a2.2 2.2 0 0 1 0 4.4h-.5A2.5 2.5 0 0 1 9.5 15" }),
+    React.createElement("path", { d: "M12 6v1.2M12 16.8V18" })));
+/* ============================================================
+   BRAND — swap these three lines for your own identity.
+   Everything visual derives from the tokens in <style> below.
+   ============================================================ */
+const BRAND = "Keystone Capital";
+const TAGLINE = "Working capital for businesses that can't wait on a bank.";
+const PHONE = "(800) 555-0142";
+const STYLES = `
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --ink:#0C1628; --ink-2:#13243F; --ink-soft:#33445E;
+  --paper:#F6F3EC; --card:#FFFFFF; --line:#E4DECF;
+  --gold:#E0A64B; --gold-deep:#B9812B; --gold-wash:#FBF1DC;
+  --green:#2E7D5B; --muted:#697588; --muted-2:#94A0AF;
+  --shadow:0 1px 2px rgba(12,22,40,.06), 0 12px 32px rgba(12,22,40,.08);
+}
+*{box-sizing:border-box}
+.kc{margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  line-height:1.55;overflow-x:hidden}
+.kc h1,.kc h2,.kc h3,.kc .disp{font-family:'Bricolage Grotesque','Inter',sans-serif;
+  line-height:1.02;letter-spacing:-.02em;margin:0;font-weight:800}
+.kc .mono{font-family:'Space Mono',monospace;letter-spacing:-.02em}
+.kc button{font-family:inherit;cursor:pointer;border:none}
+.kc a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* eyebrow */
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold-deep);display:inline-flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--gold)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:15px;
+  padding:14px 22px;border-radius:12px;transition:transform .15s ease, box-shadow .2s ease, background .2s ease}
+.btn:active{transform:translateY(1px)}
+.btn-gold{background:var(--gold);color:var(--ink)}
+.btn-gold:hover{background:#EBB962;box-shadow:0 8px 22px rgba(224,166,75,.4)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:var(--ink-2)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--ink);background:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;transform:none}
+
+/* ---------- NAV ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(246,243,236,.82);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque';
+  font-weight:800;font-size:19px;letter-spacing:-.02em}
+.logo-mark{width:32px;height:32px;border-radius:9px;background:var(--ink);color:var(--gold);
+  display:grid;place-items:center}
+.demo-pill{font-size:10px;font-weight:700;letter-spacing:.1em;background:var(--gold-wash);
+  color:var(--gold-deep);padding:3px 8px;border-radius:6px;border:1px solid #EBD9AE}
+.nav-links{display:flex;align-items:center;gap:30px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft)}
+.nav-links a:hover{color:var(--ink)}
+.nav-tel{font-family:'Space Mono';font-size:14px;font-weight:700}
+.menu-btn{display:none;background:none;padding:6px}
+@media(max-width:860px){
+  .nav-links{display:none} .menu-btn{display:block}
+}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;background:
+  radial-gradient(120% 120% at 85% -10%, #1B2E4E 0%, var(--ink) 55%);
+  color:#EAF0F8;padding:76px 0 96px;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:52px 52px;mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent)}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero .eyebrow{color:var(--gold)}
+.hero .eyebrow::before{background:var(--gold)}
+.hero h1{font-size:58px;color:#fff;margin:20px 0 0}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p.sub{font-size:18px;color:#AEBDD2;max-width:460px;margin:20px 0 34px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.trust-row{display:flex;gap:26px;margin-top:38px;flex-wrap:wrap}
+.trust-row div{display:flex;align-items:center;gap:9px;font-size:13.5px;color:#9FB0C6}
+.trust-row svg{color:var(--gold)}
+.fadeup{animation:fadeup .7s cubic-bezier(.2,.7,.2,1) both}
+.fadeup.d1{animation-delay:.08s}.fadeup.d2{animation-delay:.16s}.fadeup.d3{animation-delay:.24s}
+@keyframes fadeup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* signature: funding readout card */
+.readout{background:linear-gradient(180deg,#fff,#FCFAF4);border-radius:20px;
+  box-shadow:0 24px 60px rgba(6,12,24,.45);padding:26px;color:var(--ink);
+  border:1px solid rgba(255,255,255,.6)}
+.readout-top{display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:16px;border-bottom:1px dashed var(--line)}
+.readout-top .lbl{font-size:11px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted)}
+.readout-top .badge{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+  color:var(--green);background:#E9F4EE;padding:5px 10px;border-radius:20px}
+.readout .amount{font-family:'Space Mono';font-weight:700;font-size:46px;letter-spacing:-.03em;
+  margin:20px 0 4px}
+.readout .amount span{color:var(--gold-deep)}
+.readout .caption{font-size:13px;color:var(--muted);margin-bottom:22px}
+.readout-rows{display:grid;gap:12px}
+.rr{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.rr .k{color:var(--muted)}
+.rr .v{font-family:'Space Mono';font-weight:700}
+.readout-bar{height:8px;border-radius:6px;background:#EFE9DC;margin:18px 0 6px;overflow:hidden}
+.readout-bar i{display:block;height:100%;width:0;border-radius:6px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-deep));
+  animation:fill 1.4s .3s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes fill{to{width:78%}}
+.readout .foot{font-size:12px;color:var(--muted-2);text-align:center;margin-top:10px}
+
+@media(max-width:860px){
+  .hero{padding:52px 0 64px}
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero h1{font-size:40px}
+}
+
+/* ---------- SECTION scaffolding ---------- */
+.sec{padding:88px 0}
+.sec-head{max-width:640px;margin-bottom:48px}
+.sec-head h2{font-size:38px;margin:16px 0 0}
+.sec-head p{color:var(--muted);font-size:17px;margin:14px 0 0}
+@media(max-width:860px){.sec{padding:60px 0}.sec-head h2{font-size:30px}}
+
+/* products */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.prod{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px;
+  transition:transform .22s ease, box-shadow .22s ease;display:flex;flex-direction:column}
+.prod:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.prod-ico{width:50px;height:50px;border-radius:13px;display:grid;place-items:center;
+  background:var(--gold-wash);color:var(--gold-deep);margin-bottom:20px}
+.prod h3{font-size:21px}
+.prod p{color:var(--muted);font-size:14.5px;margin:12px 0 20px;flex:1}
+.prod .range{font-family:'Space Mono';font-weight:700;font-size:15px;color:var(--ink)}
+.prod .range small{display:block;font-family:'Inter';font-weight:500;font-size:12px;
+  color:var(--muted-2);letter-spacing:0;margin-top:3px}
+.prod ul{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:9px}
+.prod li{display:flex;gap:9px;font-size:13.5px;color:var(--ink-soft);align-items:center}
+.prod li svg{color:var(--green);flex-shrink:0}
+@media(max-width:860px){.prod-grid{grid-template-columns:1fr}}
+
+/* process */
+.proc{background:var(--ink);color:#EAF0F8}
+.proc .sec-head h2{color:#fff}
+.proc .sec-head p{color:#9FB0C6}
+.proc .eyebrow{color:var(--gold)}.proc .eyebrow::before{background:var(--gold)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative}
+.stepc{position:relative;padding:30px;border:1px solid rgba(255,255,255,.1);border-radius:18px;
+  background:rgba(255,255,255,.03)}
+.stepc .num{font-family:'Space Mono';font-weight:700;font-size:13px;color:var(--gold);
+  letter-spacing:.1em}
+.stepc h3{color:#fff;font-size:20px;margin:14px 0 10px}
+.stepc p{color:#9FB0C6;font-size:14px;margin:0}
+.stepc .ic{position:absolute;top:26px;right:26px;color:rgba(255,255,255,.25)}
+@media(max-width:860px){.steps{grid-template-columns:1fr}}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:44px 0}
+.stat .n{font-family:'Space Mono';font-weight:700;font-size:34px;letter-spacing:-.03em}
+.stat .n span{color:var(--gold-deep)}
+.stat .l{color:var(--muted);font-size:13.5px;margin-top:4px}
+@media(max-width:860px){.stats{grid-template-columns:repeat(2,1fr);gap:32px 20px}}
+
+/* CTA band */
+.cta-band{background:linear-gradient(100deg,var(--ink),var(--ink-2));color:#fff;
+  border-radius:24px;padding:56px;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.cta-band h2{font-size:32px;max-width:520px}
+.cta-band p{color:#9FB0C6;margin:12px 0 0;max-width:480px}
+@media(max-width:860px){.cta-band{flex-direction:column;align-items:flex-start;padding:38px;text-align:left}}
+
+/* footer */
+.foot{background:var(--ink);color:#8FA0B8;padding:60px 0 34px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px;margin-bottom:44px}
+.foot .logo{color:#fff;margin-bottom:16px}
+.foot h4{color:#fff;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 16px;font-family:'Inter';font-weight:600}
+.foot a{display:block;font-size:14px;margin-bottom:11px;color:#8FA0B8}
+.foot a:hover{color:var(--gold)}
+.foot .about{font-size:14px;color:#8FA0B8;max-width:280px}
+.foot-bar{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;
+  display:flex;justify-content:space-between;gap:16px;font-size:12.5px;color:#6C7C93;flex-wrap:wrap}
+.disclaimer{font-size:11.5px;color:#5D6C82;line-height:1.6;margin-top:20px;max-width:760px}
+@media(max-width:860px){.foot-grid{grid-template-columns:1fr 1fr}}
+
+/* ============ APPLICATION ============ */
+.app{min-height:100vh;background:var(--paper);padding-bottom:80px}
+.app-top{background:var(--ink);color:#fff}
+.app-top-in{display:flex;align-items:center;justify-content:space-between;height:70px}
+.app-top .back{display:flex;align-items:center;gap:8px;font-size:14px;color:#AEBDD2;background:none}
+.app-top .back:hover{color:#fff}
+.app-top .secure{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#9FB0C6}
+.app-top .secure svg{color:var(--gold)}
+
+/* progress rail */
+.rail-wrap{background:var(--card);border-bottom:1px solid var(--line);padding:22px 0}
+.rail{display:flex;gap:8px}
+.rseg{flex:1}
+.rseg-bar{height:5px;border-radius:4px;background:var(--line);overflow:hidden}
+.rseg-bar i{display:block;height:100%;width:0;background:var(--gold);
+  transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.rseg.done .rseg-bar i,.rseg.active .rseg-bar i{width:100%}
+.rseg.active .rseg-bar i{background:linear-gradient(90deg,var(--gold),var(--gold-deep))}
+.rseg-lbl{display:flex;align-items:center;gap:7px;margin-top:11px;font-size:12.5px;
+  font-weight:600;color:var(--muted-2)}
+.rseg.active .rseg-lbl,.rseg.done .rseg-lbl{color:var(--ink)}
+.rseg-dot{width:19px;height:19px;border-radius:50%;display:grid;place-items:center;
+  font-family:'Space Mono';font-size:11px;font-weight:700;background:var(--line);color:var(--muted)}
+.rseg.active .rseg-dot{background:var(--gold);color:var(--ink)}
+.rseg.done .rseg-dot{background:var(--green);color:#fff}
+@media(max-width:700px){.rseg-lbl span{display:none}}
+
+/* form card */
+.fwrap{max-width:760px;margin:40px auto 0}
+.fcard{background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:40px;box-shadow:var(--shadow)}
+.fcard h2{font-size:27px}
+.fcard .stepsub{color:var(--muted);font-size:15px;margin:10px 0 30px}
+.field{margin-bottom:20px}
+.field.half{display:inline-block;width:calc(50% - 8px)}
+.field.half:nth-of-type(odd){margin-right:14px}
+label.flabel{display:block;font-size:13px;font-weight:600;margin-bottom:8px;color:var(--ink-soft)}
+label.flabel .req{color:var(--gold-deep)}
+.inp,.sel,.ta{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:11px;
+  font-family:inherit;font-size:15px;background:#FCFBF7;color:var(--ink);transition:border .15s,box-shadow .15s}
+.inp:focus,.sel:focus,.ta:focus{outline:none;border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(224,166,75,.18);background:#fff}
+.sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%23697588' stroke-width='2'%3E%3Cpath d='M3 5l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:600px){.row2,.row3{grid-template-columns:1fr}}
+.hint{font-size:12px;color:var(--muted-2);margin-top:7px;display:flex;align-items:center;gap:6px}
+.hint svg{color:var(--green)}
+
+/* amount chips */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:11px 16px;border:1px solid var(--line);border-radius:10px;background:#FCFBF7;
+  font-family:'Space Mono';font-weight:700;font-size:14px;transition:.15s}
+.chip:hover{border-color:var(--gold)}
+.chip.on{background:var(--ink);color:var(--gold);border-color:var(--ink)}
+
+/* consent + upload */
+.consent{display:flex;gap:12px;align-items:flex-start;background:var(--gold-wash);
+  border:1px solid #EBD9AE;border-radius:12px;padding:16px;font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.consent input{margin-top:3px;width:17px;height:17px;accent-color:var(--gold-deep);flex-shrink:0}
+.drop{border:2px dashed var(--line);border-radius:14px;padding:32px;text-align:center;
+  background:#FCFBF7;transition:.15s;cursor:pointer}
+.drop:hover{border-color:var(--gold);background:#fff}
+.drop svg{color:var(--gold-deep)}
+.drop .big{font-weight:600;margin:12px 0 4px}
+.drop .sm{font-size:12.5px;color:var(--muted)}
+.filechip{display:flex;align-items:center;gap:10px;background:#E9F4EE;border:1px solid #C7E4D3;
+  border-radius:10px;padding:12px 14px;font-size:14px;margin-top:12px;color:var(--ink)}
+.filechip svg{color:var(--green)}
+.sig{font-family:'Space Mono'}
+
+/* nav buttons */
+.fnav{display:flex;justify-content:space-between;margin-top:34px;gap:14px}
+.agent-tag{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);
+  background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 14px;margin-bottom:22px}
+.agent-tag b{color:var(--ink);font-family:'Space Mono'}
+
+/* success */
+.done-card{max-width:600px;margin:70px auto 0;text-align:center;background:var(--card);
+  border:1px solid var(--line);border-radius:22px;padding:56px 40px;box-shadow:var(--shadow)}
+.done-ring{width:76px;height:76px;border-radius:50%;background:#E9F4EE;color:var(--green);
+  display:grid;place-items:center;margin:0 auto 24px}
+.done-card h2{font-size:30px}
+.done-card p{color:var(--muted);font-size:16px;margin:14px auto 0;max-width:420px}
+.done-ref{font-family:'Space Mono';font-weight:700;background:var(--gold-wash);
+  border:1px solid #EBD9AE;border-radius:10px;padding:12px 18px;display:inline-block;margin-top:26px}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+`;
+/* ---------- data ---------- */
+const PRODUCTS = [
+    { icon: Wallet, name: "Working Capital Advance", desc: "A lump sum against future revenue, repaid as a small share of daily or weekly sales. Built for uneven cash flow.", range: "$10K – $500K", term: "3–18 month terms", feats: ["Funds in as little as 24 hours", "No collateral required", "Repayment flexes with sales"] },
+    { icon: Landmark, name: "Business Line of Credit", desc: "Draw what you need, when you need it, and only pay for what you use. Refills as you repay.", range: "$25K – $250K", term: "Revolving", feats: ["Draw on demand", "Interest on the drawn amount only", "Reusable as you repay"] },
+    { icon: Building2, name: "Asset-Based Loan", desc: "Leverage equipment, inventory, or receivables to unlock larger amounts at stronger rates.", range: "$100K – $2M", term: "12–60 month terms", feats: ["Higher approval amounts", "Rates tied to collateral", "Equipment & AR eligible"] },
+];
+const STEP_META = [
+    { t: "Basics", ic: Zap }, { t: "Business", ic: Building2 },
+    { t: "Owner", ic: ShieldCheck }, { t: "Banking", ic: Landmark },
+];
+const AMOUNTS = ["$25K", "$50K", "$100K", "$250K", "$500K+"];
+/* ============================================================ */
+function App() {
+    const [view, setView] = useState("landing");
+    const [step, setStep] = useState(1);
+    const [agent, setAgent] = useState("");
+    const [f, setF] = useState({
+        amount: "", timing: "", use: "", fname: "", lname: "", email: "", phone: "", consent1: false,
+        legal: "", dba: "", industry: "", street: "", city: "", state: "", zip: "",
+        entity: "", ein: "", tib: "", credit: "", revenue: "", debt: "",
+        owner: "", dob: "", ssn: "", ownpct: "", homeaddr: "",
+        bankfile: "", signature: "", agree: false,
+    });
+    const set = (k, v) => setF((p) => ({ ...p, [k]: v }));
+    useEffect(() => {
+        const q = window.location.search;
+        // supports ?agent=name  and the site's own  ?=name  pattern
+        const m = q.match(/[?&](?:agent=)?=?([\w.\-]+)/);
+        if (m && m[1] && m[1] !== "agent")
+            setAgent(m[1]);
+    }, []);
+    const goApply = () => { setView("apply"); setStep(1); window.scrollTo(0, 0); };
+    if (view === "landing")
+        return (React.createElement("div", { className: "kc" },
+            React.createElement("style", null, STYLES),
+            React.createElement(Landing, { onApply: goApply, agent: agent })));
+    return (React.createElement("div", { className: "kc" },
+        React.createElement("style", null, STYLES),
+        React.createElement(Apply, { step: step, setStep: setStep, f: f, set: set, agent: agent, onExit: () => { setView("landing"); window.scrollTo(0, 0); } })));
+}
+/* ---------------- LANDING ---------------- */
+function Landing({ onApply, agent }) {
+    const [open, setOpen] = useState(false);
+    const applyHref = agent ? `?=${agent}` : "?";
+    return (React.createElement(React.Fragment, null,
+        React.createElement("header", { className: "nav" },
+            React.createElement("div", { className: "wrap nav-in" },
+                React.createElement("div", { className: "logo" },
+                    React.createElement("span", { className: "logo-mark" },
+                        React.createElement(CircleDollarSign, { size: 19 })),
+                    BRAND,
+                    React.createElement("span", { className: "demo-pill" }, "DEMO")),
+                React.createElement("nav", { className: "nav-links" },
+                    React.createElement("a", { href: "#products" }, "Funding"),
+                    React.createElement("a", { href: "#how" }, "How it works"),
+                    React.createElement("a", { href: "#why" }, "Why us"),
+                    React.createElement("a", { className: "nav-tel", href: `tel:${PHONE}` }, PHONE),
+                    React.createElement("button", { className: "btn btn-gold", style: { padding: "10px 18px" }, onClick: onApply }, "Apply Now")),
+                React.createElement("button", { className: "menu-btn", onClick: () => setOpen(!open) }, open ? React.createElement(X, null) : React.createElement(Menu, null))),
+            open && React.createElement("div", { className: "wrap", style: { paddingBottom: 18, display: "grid", gap: 14 } },
+                React.createElement("a", { href: "#products", onClick: () => setOpen(false) }, "Funding"),
+                React.createElement("a", { href: "#how", onClick: () => setOpen(false) }, "How it works"),
+                React.createElement("button", { className: "btn btn-gold", onClick: onApply }, "Apply Now"))),
+        React.createElement("section", { className: "hero" },
+            React.createElement("div", { className: "wrap hero-grid" },
+                React.createElement("div", null,
+                    React.createElement("span", { className: "eyebrow fadeup" }, "Same-day business funding"),
+                    React.createElement("h1", { className: "fadeup d1" },
+                        "Capital that moves",
+                        React.createElement("br", null),
+                        "at the speed of ",
+                        React.createElement("em", null, "your business.")),
+                    React.createElement("p", { className: "sub fadeup d2" },
+                        TAGLINE,
+                        " One short application. A real decision in hours, not weeks."),
+                    React.createElement("div", { className: "hero-cta fadeup d2" },
+                        React.createElement("button", { className: "btn btn-gold", onClick: onApply },
+                            "Check your amount ",
+                            React.createElement(ArrowRight, { size: 18 })),
+                        React.createElement("a", { className: "btn btn-ghost", href: "#how", style: { color: "#EAF0F8", borderColor: "rgba(255,255,255,.2)" } }, "See how it works")),
+                    React.createElement("div", { className: "trust-row fadeup d3" },
+                        React.createElement("div", null,
+                            React.createElement(ShieldCheck, { size: 16 }),
+                            "No impact to credit to apply"),
+                        React.createElement("div", null,
+                            React.createElement(Clock, { size: 16 }),
+                            "Funds in 24\u201348 hrs"),
+                        React.createElement("div", null,
+                            React.createElement(Zap, { size: 16 }),
+                            "5-minute application"))),
+                React.createElement("div", { className: "fadeup d2" },
+                    React.createElement("div", { className: "readout" },
+                        React.createElement("div", { className: "readout-top" },
+                            React.createElement("span", { className: "lbl" }, "Estimated Offer"),
+                            React.createElement("span", { className: "badge" },
+                                React.createElement(Check, { size: 13 }),
+                                " Pre-qualified")),
+                        React.createElement("div", { className: "amount" },
+                            "$",
+                            React.createElement("span", null, "184,000")),
+                        React.createElement("div", { className: "caption" }, "Based on a business doing ~$95K / month in revenue"),
+                        React.createElement("div", { className: "readout-rows" },
+                            React.createElement("div", { className: "rr" },
+                                React.createElement("span", { className: "k" }, "Product"),
+                                React.createElement("span", { className: "v" }, "Working Capital")),
+                            React.createElement("div", { className: "rr" },
+                                React.createElement("span", { className: "k" }, "Est. factor"),
+                                React.createElement("span", { className: "v" }, "1.18")),
+                            React.createElement("div", { className: "rr" },
+                                React.createElement("span", { className: "k" }, "Term"),
+                                React.createElement("span", { className: "v" }, "9 months"))),
+                        React.createElement("div", { className: "readout-bar" },
+                            React.createElement("i", null)),
+                        React.createElement("div", { className: "rr", style: { fontSize: 12 } },
+                            React.createElement("span", { className: "k" }, "Underwriting confidence"),
+                            React.createElement("span", { className: "v" }, "78%")),
+                        React.createElement("div", { className: "foot" }, "Illustrative estimate \u2014 your real offer follows underwriting."))))),
+        React.createElement("section", { className: "sec", id: "products" },
+            React.createElement("div", { className: "wrap" },
+                React.createElement("div", { className: "sec-head" },
+                    React.createElement("span", { className: "eyebrow" }, "What we fund"),
+                    React.createElement("h2", null, "Three ways to put capital to work."),
+                    React.createElement("p", null, "Every business runs differently. We match you to the structure that fits your revenue, not a one-size product.")),
+                React.createElement("div", { className: "prod-grid" }, PRODUCTS.map((p) => {
+                    const I = p.icon;
+                    return (React.createElement("div", { className: "prod", key: p.name },
+                        React.createElement("div", { className: "prod-ico" },
+                            React.createElement(I, { size: 24 })),
+                        React.createElement("h3", null, p.name),
+                        React.createElement("p", null, p.desc),
+                        React.createElement("div", { className: "range" },
+                            p.range,
+                            React.createElement("small", null, p.term)),
+                        React.createElement("ul", null, p.feats.map((x) => React.createElement("li", { key: x },
+                            React.createElement(Check, { size: 15 }),
+                            x)))));
+                })))),
+        React.createElement("section", { className: "sec proc", id: "how" },
+            React.createElement("div", { className: "wrap" },
+                React.createElement("div", { className: "sec-head" },
+                    React.createElement("span", { className: "eyebrow" }, "How it works"),
+                    React.createElement("h2", null, "From application to funded in three steps."),
+                    React.createElement("p", null, "No stacks of paperwork, no branch visits. Everything happens online.")),
+                React.createElement("div", { className: "steps" }, [
+                    { n: "STEP 01", h: "Apply in 5 minutes", p: "Tell us about your business and connect your bank statements. A soft pull only — applying never touches your credit score.", ic: FileText },
+                    { n: "STEP 02", h: "Get a real decision", p: "Our team reviews your cash flow and comes back with an actual offer, usually the same business day.", ic: TrendingUp },
+                    { n: "STEP 03", h: "Get funded", p: "Accept your terms and the capital lands in your account, often within 24 to 48 hours.", ic: Zap },
+                ].map((s) => {
+                    const I = s.ic;
+                    return (React.createElement("div", { className: "stepc", key: s.n },
+                        React.createElement(I, { size: 22, className: "ic" }),
+                        React.createElement("div", { className: "num" }, s.n),
+                        React.createElement("h3", null, s.h),
+                        React.createElement("p", null, s.p)));
+                })))),
+        React.createElement("section", { id: "why" },
+            React.createElement("div", { className: "wrap" },
+                React.createElement("div", { className: "stats" }, [["$", "1.2B+", "Funded to date"], ["", "42K+", "Businesses served"], ["", "24hr", "Median time to funds"], ["", "94%", "Would apply again"]].map((s, i) => React.createElement("div", { className: "stat", key: i },
+                    React.createElement("div", { className: "n" },
+                        React.createElement("span", null, s[0]),
+                        s[1]),
+                    React.createElement("div", { className: "l" }, s[2])))))),
+        React.createElement("section", { className: "sec" },
+            React.createElement("div", { className: "wrap" },
+                React.createElement("div", { className: "cta-band" },
+                    React.createElement("div", null,
+                        React.createElement("h2", null, "See what you qualify for."),
+                        React.createElement("p", null, "Checking your amount takes about five minutes and won't affect your credit.")),
+                    React.createElement("button", { className: "btn btn-gold", style: { flexShrink: 0 }, onClick: onApply },
+                        "Start application ",
+                        React.createElement(ArrowRight, { size: 18 }))))),
+        React.createElement("footer", { className: "foot" },
+            React.createElement("div", { className: "wrap" },
+                React.createElement("div", { className: "foot-grid" },
+                    React.createElement("div", null,
+                        React.createElement("div", { className: "logo" },
+                            React.createElement("span", { className: "logo-mark" },
+                                React.createElement(CircleDollarSign, { size: 19 })),
+                            BRAND),
+                        React.createElement("p", { className: "about" },
+                            "Small-business funding built for speed. Products offered through ",
+                            BRAND,
+                            " and its lending partners.")),
+                    React.createElement("div", null,
+                        React.createElement("h4", null, "Funding"),
+                        React.createElement("a", { href: "#products" }, "Working Capital"),
+                        React.createElement("a", { href: "#products" }, "Line of Credit"),
+                        React.createElement("a", { href: "#products" }, "Asset-Based")),
+                    React.createElement("div", null,
+                        React.createElement("h4", null, "Company"),
+                        React.createElement("a", { href: "#why" }, "About"),
+                        React.createElement("a", { href: "#how" }, "How it works"),
+                        React.createElement("a", { href: "#" }, "Partners")),
+                    React.createElement("div", null,
+                        React.createElement("h4", null, "Legal"),
+                        React.createElement("a", { href: "#" }, "Privacy Policy"),
+                        React.createElement("a", { href: "#" }, "Terms"),
+                        React.createElement("a", { href: "#" }, "Disclosures"))),
+                React.createElement("p", { className: "disclaimer" },
+                    "This is a demonstration prototype. ",
+                    BRAND,
+                    " is a placeholder brand and not a real lender. All figures, offers, and statistics shown are illustrative. No form data is transmitted or stored in this demo. Replace this disclaimer and all placeholder copy before any live use, and ensure any real application flow meets applicable lending and data-security requirements."),
+                React.createElement("div", { className: "foot-bar" },
+                    React.createElement("span", null,
+                        "\u00A9 ",
+                        new Date().getFullYear(),
+                        " ",
+                        BRAND,
+                        ". Demo only."),
+                    React.createElement("span", null, PHONE))))));
+}
+/* ---------------- APPLICATION ---------------- */
+function Apply({ step, setStep, f, set, agent, onExit }) {
+    const topRef = useRef(null);
+    const submitted = step === 5;
+    const canProceed = () => {
+        if (step === 1)
+            return f.amount && f.fname && f.lname && f.email && f.phone && f.consent1;
+        if (step === 4)
+            return f.agree && f.signature;
+        return true; // steps 2 & 3 forgiving for prototype demo
+    };
+    const next = () => { setStep(step + 1); window.scrollTo(0, 0); };
+    const back = () => { if (step === 1)
+        onExit();
+    else {
+        setStep(step - 1);
+        window.scrollTo(0, 0);
+    } };
+    return (React.createElement("div", { className: "app", ref: topRef },
+        React.createElement("div", { className: "app-top" },
+            React.createElement("div", { className: "wrap app-top-in" },
+                React.createElement("button", { className: "back", onClick: back },
+                    React.createElement(ArrowLeft, { size: 16 }),
+                    step === 1 ? "Back to site" : "Back"),
+                React.createElement("div", { className: "logo", style: { color: "#fff", fontSize: 16 } },
+                    React.createElement("span", { className: "logo-mark" },
+                        React.createElement(CircleDollarSign, { size: 17 })),
+                    BRAND),
+                React.createElement("div", { className: "secure" },
+                    React.createElement(Lock, { size: 14 }),
+                    "256-bit encrypted"))),
+        !submitted && React.createElement("div", { className: "rail-wrap" },
+            React.createElement("div", { className: "wrap" },
+                React.createElement("div", { className: "rail" }, STEP_META.map((s, i) => {
+                    const idx = i + 1;
+                    const cls = idx < step ? "done" : idx === step ? "active" : "";
+                    return (React.createElement("div", { className: `rseg ${cls}`, key: s.t },
+                        React.createElement("div", { className: "rseg-bar" },
+                            React.createElement("i", null)),
+                        React.createElement("div", { className: "rseg-lbl" },
+                            React.createElement("span", { className: "rseg-dot" }, idx < step ? React.createElement(Check, { size: 11 }) : idx),
+                            React.createElement("span", null, s.t))));
+                })))),
+        React.createElement("div", { className: "wrap" }, submitted ? React.createElement(Success, { agent: agent, f: f }) :
+            React.createElement("div", { className: "fwrap" },
+                React.createElement("div", { className: "fcard" },
+                    agent && React.createElement("div", { className: "agent-tag" },
+                        React.createElement(ShieldCheck, { size: 14 }),
+                        "Referred by ",
+                        React.createElement("b", null, agent)),
+                    step === 1 && React.createElement(Step1, { f: f, set: set }),
+                    step === 2 && React.createElement(Step2, { f: f, set: set }),
+                    step === 3 && React.createElement(Step3, { f: f, set: set }),
+                    step === 4 && React.createElement(Step4, { f: f, set: set }),
+                    React.createElement("div", { className: "fnav" },
+                        React.createElement("button", { className: "btn btn-ghost", onClick: back },
+                            React.createElement(ArrowLeft, { size: 17 }),
+                            step === 1 ? "Exit" : "Back"),
+                        step < 4
+                            ? React.createElement("button", { className: "btn btn-ink", disabled: !canProceed(), onClick: next },
+                                "Continue ",
+                                React.createElement(ArrowRight, { size: 17 }))
+                            : React.createElement("button", { className: "btn btn-gold", disabled: !canProceed(), onClick: next },
+                                "Submit application ",
+                                React.createElement(Check, { size: 17 }))))))));
+}
+function Field({ label, req, children, hint }) {
+    return (React.createElement("div", { className: "field" },
+        React.createElement("label", { className: "flabel" },
+            label,
+            req && React.createElement("span", { className: "req" }, " *")),
+        children,
+        hint && React.createElement("div", { className: "hint" }, hint)));
+}
+function Step1({ f, set }) {
+    return (React.createElement(React.Fragment, null,
+        React.createElement("h2", null, "Let's find your amount."),
+        React.createElement("p", { className: "stepsub" }, "Start with the basics. This won't affect your credit score."),
+        React.createElement(Field, { label: "How much capital do you need?", req: true },
+            React.createElement("div", { className: "chips" }, AMOUNTS.map((a) => React.createElement("button", { key: a, className: `chip ${f.amount === a ? "on" : ""}`, onClick: () => set("amount", a) }, a)))),
+        React.createElement("div", { className: "row2" },
+            React.createElement(Field, { label: "How soon do you need it?" },
+                React.createElement("select", { className: "sel", value: f.timing, onChange: (e) => set("timing", e.target.value) },
+                    React.createElement("option", { value: "" }, "Select\u2026"),
+                    React.createElement("option", null, "Immediately"),
+                    React.createElement("option", null, "Within a week"),
+                    React.createElement("option", null, "Within a month"),
+                    React.createElement("option", null, "Just exploring"))),
+            React.createElement(Field, { label: "What's it for?" },
+                React.createElement("select", { className: "sel", value: f.use, onChange: (e) => set("use", e.target.value) },
+                    React.createElement("option", { value: "" }, "Select\u2026"),
+                    React.createElement("option", null, "Inventory / supplies"),
+                    React.createElement("option", null, "Payroll"),
+                    React.createElement("option", null, "Equipment"),
+                    React.createElement("option", null, "Expansion"),
+                    React.createElement("option", null, "Marketing"),
+                    React.createElement("option", null, "Other")))),
+        React.createElement("div", { className: "row2" },
+            React.createElement(Field, { label: "First name", req: true },
+                React.createElement("input", { className: "inp", value: f.fname, onChange: (e) => set("fname", e.target.value), placeholder: "Jordan" })),
+            React.createElement(Field, { label: "Last name", req: true },
+                React.createElement("input", { className: "inp", value: f.lname, onChange: (e) => set("lname", e.target.value), placeholder: "Ellis" }))),
+        React.createElement("div", { className: "row2" },
+            React.createElement(Field, { label: "Email", req: true },
+                React.createElement("input", { className: "inp", type: "email", value: f.email, onChange: (e) => set("email", e.target.value), placeholder: "jordan@business.com" })),
+            React.createElement(Field, { label: "Mobile phone", req: true },
+                React.createElement("input", { className: "inp", value: f.phone, onChange: (e) => set("phone", e.target.value), placeholder: "(555) 000-0000" }))),
+        React.createElement("label", { className: "consent" },
+            React.createElement("input", { type: "checkbox", checked: f.consent1, onChange: (e) => set("consent1", e.target.checked) }),
+            React.createElement("span", null,
+                "I agree to be contacted by ",
+                BRAND,
+                " about my application by phone, text, and email, and I consent to a soft credit inquiry. I've reviewed the Terms and Privacy Policy."))));
+}
+function Step2({ f, set }) {
+    return (React.createElement(React.Fragment, null,
+        React.createElement("h2", null, "About your business."),
+        React.createElement("p", { className: "stepsub" }, "This helps us size the right offer for your cash flow."),
+        React.createElement("div", { className: "row2" },
+            React.createElement(Field, { label: "Legal business name" },
+                React.createElement("input", { className: "inp", value: f.legal, onChange: (e) => set("legal", e.target.value), placeholder: "Ellis Trading LLC" })),
+            React.createElement(Field, { label: "DBA (if any)" },
+                React.createElement("input", { className: "inp", value: f.dba, onChange: (e) => set("dba", e.target.value), placeholder: "Ellis Co." }))),
+        React.createElement(Field, { label: "Industry" },
+            React.createElement("select", { className: "sel", value: f.industry, onChange: (e) => set("industry", e.target.value) },
+                React.createElement("option", { value: "" }, "Select\u2026"),
+                ["Retail", "Restaurant / Food", "Construction", "Healthcare", "Professional Services", "Transportation", "Manufacturing", "eCommerce", "Other"].map((x) => React.createElement("option", { key: x }, x)))),
+        React.createElement(Field, { label: "Business address" },
+            React.createElement("input", { className: "inp", value: f.street, onChange: (e) => set("street", e.target.value), placeholder: "Street address" })),
+        React.createElement("div", { className: "row3" },
+            React.createElement(Field, { label: "City" },
+                React.createElement("input", { className: "inp", value: f.city, onChange: (e) => set("city", e.target.value) })),
+            React.createElement(Field, { label: "State" },
+                React.createElement("input", { className: "inp", value: f.state, onChange: (e) => set("state", e.target.value) })),
+            React.createElement(Field, { label: "ZIP" },
+                React.createElement("input", { className: "inp", value: f.zip, onChange: (e) => set("zip", e.target.value) }))),
+        React.createElement("div", { className: "row2" },
+            React.createElement(Field, { label: "Entity type" },
+                React.createElement("select", { className: "sel", value: f.entity, onChange: (e) => set("entity", e.target.value) },
+                    React.createElement("option", { value: "" }, "Select\u2026"),
+                    ["Sole Proprietor", "LLC", "S-Corp", "C-Corp", "Partnership"].map((x) => React.createElement("option", { key: x }, x)))),
+            React.createElement(Field, { label: "EIN / Tax ID" },
+                React.createElement("input", { className: "inp", value: f.ein, onChange: (e) => set("ein", e.target.value), placeholder: "XX-XXXXXXX" }))),
+        React.createElement("div", { className: "row3" },
+            React.createElement(Field, { label: "Time in business" },
+                React.createElement("select", { className: "sel", value: f.tib, onChange: (e) => set("tib", e.target.value) },
+                    React.createElement("option", { value: "" }, "Select\u2026"),
+                    ["< 6 months", "6–12 months", "1–2 years", "2–5 years", "5+ years"].map((x) => React.createElement("option", { key: x }, x)))),
+            React.createElement(Field, { label: "Est. credit score" },
+                React.createElement("select", { className: "sel", value: f.credit, onChange: (e) => set("credit", e.target.value) },
+                    React.createElement("option", { value: "" }, "Select\u2026"),
+                    ["720+", "680–719", "640–679", "600–639", "Below 600"].map((x) => React.createElement("option", { key: x }, x)))),
+            React.createElement(Field, { label: "Avg. monthly revenue" },
+                React.createElement("input", { className: "inp", value: f.revenue, onChange: (e) => set("revenue", e.target.value), placeholder: "$" }))),
+        React.createElement(Field, { label: "Existing business debt (optional)", hint: React.createElement(React.Fragment, null,
+                React.createElement(Check, { size: 12 }),
+                "Leave blank if none") },
+            React.createElement("input", { className: "inp", value: f.debt, onChange: (e) => set("debt", e.target.value), placeholder: "$ outstanding" }))));
+}
+function Step3({ f, set }) {
+    return (React.createElement(React.Fragment, null,
+        React.createElement("h2", null, "Owner details."),
+        React.createElement("p", { className: "stepsub" }, "Lenders verify the primary owner. Your information is encrypted and used only for underwriting."),
+        React.createElement(Field, { label: "Owner full name" },
+            React.createElement("input", { className: "inp", value: f.owner, onChange: (e) => set("owner", e.target.value), placeholder: "Jordan Ellis" })),
+        React.createElement("div", { className: "row2" },
+            React.createElement(Field, { label: "Date of birth" },
+                React.createElement("input", { className: "inp", type: "date", value: f.dob, onChange: (e) => set("dob", e.target.value) })),
+            React.createElement(Field, { label: "Ownership %" },
+                React.createElement("input", { className: "inp", value: f.ownpct, onChange: (e) => set("ownpct", e.target.value), placeholder: "100" }))),
+        React.createElement(Field, { label: "Social Security Number", hint: React.createElement(React.Fragment, null,
+                React.createElement(Lock, { size: 12 }),
+                "Encrypted in transit and at rest \u2014 never emailed or shown after submission") },
+            React.createElement("input", { className: "inp sig", value: f.ssn, onChange: (e) => set("ssn", e.target.value), placeholder: "\u2022\u2022\u2022-\u2022\u2022-\u2022\u2022\u2022\u2022", inputMode: "numeric" })),
+        React.createElement(Field, { label: "Home address" },
+            React.createElement("input", { className: "inp", value: f.homeaddr, onChange: (e) => set("homeaddr", e.target.value), placeholder: "Street, City, State, ZIP" }))));
+}
+function Step4({ f, set }) {
+    return (React.createElement(React.Fragment, null,
+        React.createElement("h2", null, "Connect your banking."),
+        React.createElement("p", { className: "stepsub" }, "Your most recent business bank statements let us verify revenue and finalize your offer."),
+        React.createElement(Field, { label: "Bank statements (last 3 months, PDF)" },
+            React.createElement("label", { className: "drop" },
+                React.createElement("input", { type: "file", accept: "application/pdf", style: { display: "none" }, onChange: (e) => { var _a, _b; return set("bankfile", ((_b = (_a = e.target.files) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.name) || ""); } }),
+                React.createElement(Upload, { size: 28 }),
+                React.createElement("div", { className: "big" }, "Click to upload"),
+                React.createElement("div", { className: "sm" }, "PDF up to 20MB \u00B7 or connect your bank securely")),
+            f.bankfile && React.createElement("div", { className: "filechip" },
+                React.createElement(FileText, { size: 16 }),
+                f.bankfile)),
+        React.createElement(Field, { label: "Electronic signature", req: true, hint: React.createElement(React.Fragment, null,
+                React.createElement(ShieldCheck, { size: 12 }),
+                "Typing your name is a legal e-signature authorizing this application") },
+            React.createElement("input", { className: "inp sig", value: f.signature, onChange: (e) => set("signature", e.target.value), placeholder: "Type your full legal name" })),
+        React.createElement("label", { className: "consent" },
+            React.createElement("input", { type: "checkbox", checked: f.agree, onChange: (e) => set("agree", e.target.checked) }),
+            React.createElement("span", null,
+                "I certify the information provided is accurate and authorize ",
+                BRAND,
+                " and its lending partners to verify it, obtain business and personal credit reports, and review the submitted bank statements for underwriting."))));
+}
+function Success({ agent, f }) {
+    const ref = "KC-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+    return (React.createElement("div", { className: "done-card" },
+        React.createElement("div", { className: "done-ring" },
+            React.createElement(Check, { size: 38 })),
+        React.createElement("h2", null, "Application received."),
+        React.createElement("p", null,
+            "Thanks",
+            f.fname ? `, ${f.fname}` : "",
+            ". Our team is reviewing your file and will follow up",
+            f.email ? ` at ${f.email}` : "",
+            " \u2014 usually within one business day."),
+        React.createElement("div", { className: "done-ref" },
+            "Reference: ",
+            ref),
+        agent && React.createElement("p", { style: { fontSize: 13, marginTop: 18 } },
+            "Your dedicated funding specialist ",
+            React.createElement("b", null, agent),
+            " will be in touch."),
+        React.createElement("p", { style: { fontSize: 12, color: "var(--muted-2)", marginTop: 26 } }, "Demo prototype \u2014 no data was transmitted or stored.")));
+}
+
+  </script>
+  <script>
+    (function(){
+      try {
+        ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+      } catch (e) {
+        var d=document.createElement('pre');
+        d.style.cssText='padding:16px;color:#a00;font:12px monospace;white-space:pre-wrap';
+        d.textContent='Mount error: '+(e && e.message);
+        document.body.appendChild(d);
+      }
+    })();
+  </script>
+</body>
+</html>
